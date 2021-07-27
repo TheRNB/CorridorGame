@@ -2,9 +2,10 @@
 #include "board.h"
 
 Board::Board() {
-    gameBoard = new Cell* [11];
-    for (int i = 0; i < 11; ++i)
-        gameBoard[i] = new Cell [11];
+    boardSize = 11;
+    gameBoard = new Cell* [boardSize];
+    for (int i = 0; i < boardSize; ++i)
+        gameBoard[i] = new Cell [boardSize];
 
     for (int i = 0; i < 3; ++i)
         gamePlayer[i] = NULL;
@@ -48,3 +49,17 @@ bool Board::setPlayer(Player* currPlayer, int direction) { //0-right 1-up 2-left
     return isPossible;
 }
 
+std::string Board::printBoard() {
+    std::string currSituation = "";
+    for (int i = 0; i < boardSize; ++i) {
+        for (int j = 0; j < boardSize; ++j) {
+            if (gameBoard[i][j] == EMPTY)
+                currSituation += "□ ";
+            else if (gameBoard[i][j] == BLOCK)
+                currSituation += "# ";
+            else
+                currSituation += "P ";
+        }
+        currSituation += "\n";
+    }
+}
