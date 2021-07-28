@@ -7,3 +7,6 @@ player.o: player.cpp
 
 board.o: board.cpp
 	g++ -c board.cpp
+
+clean:
+	rm -f *.o
