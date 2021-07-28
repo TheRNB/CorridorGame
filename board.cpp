@@ -19,30 +19,35 @@ bool Board::setBlock(int X, int Y) {
         return false;
 }
 
-bool Board::setPlayer(Player* currPlayer, int direction) { //0-right 1-up 2-left 3-down
+bool Board::isValidCell(Player* currPlayer, Direction direction) {
+    int xDiff = 0, yDiff = 0;
+    if (direction == RIGHT) xDiff = 1;
+    else if (direction == UP) yDiff = 1;
+    else if (direction == LEFT) xDiff = -1;
+    else if (direction == DOWN) yDiff = -1;
+
+    if (currPlayer->getPosX()+xDiff < 0 or currPlayer->getPosX()+xDiff >= boardSize)
+        return false;
+    if (currPlayer->getPosY()+yDiff < 0 or currPlayer->getPosY()+yDiff >= boardSize)
+        return false;
+    
+    return true;
+}
+
+bool Board::setPlayer(Player* currPlayer, Direction direction) { //0-right 1-up 2-left 3-down
     bool isPossible = false;
-    if (direction == 0 and gameBoard[currPlayer->getPosX()+1][currPlayer->getPosY()] == EMPTY) {
-        gameBoard[currPlayer->getPosX()][currPlayer->getPosY()] = EMPTY;
-        gameBoard[currPlayer->getPosX()+1][currPlayer->getPosY()] = PLAYER;
-        currPlayer->setPos(currPlayer->getPosX()+1, currPlayer->getPosY());
-        isPossible = true;
-    } 
-    else if (direction == 1 and gameBoard[currPlayer->getPosX()][currPlayer->getPosY()+1] == EMPTY) {
-        gameBoard[currPlayer->getPosX()][currPlayer->getPosY()] = EMPTY;
-        gameBoard[currPlayer->getPosX()][currPlayer->getPosY()+1] = PLAYER;
-        currPlayer->setPos(currPlayer->getPosX(), currPlayer->getPosY()+1);
-        isPossible = true;
-    } 
-    else if (direction == 2 and gameBoard[currPlayer->getPosX()-1][currPlayer->getPosY()] == EMPTY) {
-        gameBoard[currPlayer->getPosX()][currPlayer->getPosY()] = EMPTY;
-        gameBoard[currPlayer->getPosX()-1][currPlayer->getPosY()] = PLAYER;
-        currPlayer->setPos(currPlayer->getPosX()-1, currPlayer->getPosY());
-        isPossible = true;
-    } 
-    else if (direction == 3 and gameBoard[currPlayer->getPosX()][currPlayer->getPosY()-1] == EMPTY) {
-        gameBoard[currPlayer->getPosX()][currPlayer->getPosY()] = EMPTY;
-        gameBoard[currPlayer->getPosX()][currPlayer->getPosY()-1] = PLAYER;
-        currPlayer->setPos(currPlayer->getPosX(), currPlayer->getPosY()-1);
+    int xDiff = 0, yDiff = 0;
+    if (direction == RIGHT) xDiff = 1;
+    else if (direction == UP) yDiff = 1;
+    else if (direction == LEFT) xDiff = -1;
+    else if (direction == DOWN) yDiff = -1;
+    
+    int currX = currPlayer->getPosX(), currY = currPlayer->getPosY();
+    if (isValidCell(currPlayer, direction) and gameBoard[currX+xDiff][currY+yDiff] == EMPTY) {
+        gameBoard[currX+xDiff][currY+yDiff]
+         = gameBoard[currX][currY];
+        gameBoard[currX][currY] = EMPTY;
+        currPlayer->setPos(currX+xDiff, currY+yDiff);
         isPossible = true;
     }
 
@@ -58,7 +63,22 @@ std::string Board::printBoard() {
             else if (gameBoard[i][j] == BLOCK)
                 currSituation += "# ";
             else
-                currSituation += "P ";
+                switch(gameBoard[i][j]) {
+                    case PLAYER1:
+                        currSituation += "A ";
+                        break;
+                    case PLAYER2:
+                        currSituation += "B ";
+                        break;
+                    case PLAYER3:
+                        currSituation += "C ";
+                        break;
+                    case PLAYER4:
+                        currSituation += "D ";
+                        break;
+                    default:
+                        break;
+                }
         }
         currSituation += "\n";
     }
