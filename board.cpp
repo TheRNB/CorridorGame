@@ -4,8 +4,12 @@
 Board::Board() {
     boardSize = 11;
     gameBoard = new Cell* [boardSize];
-    for (int i = 0; i < boardSize; ++i)
+    for (int i = 0; i < boardSize; ++i) {
         gameBoard[i] = new Cell [boardSize];
+        for (int j = 0; j < boardSize; ++j) {
+            gameBoard[i][j] = EMPTY;
+        }
+    }
 
     for (int i = 0; i < 3; ++i)
         gamePlayer[i] = NULL;
