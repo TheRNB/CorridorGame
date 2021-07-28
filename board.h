@@ -8,8 +8,9 @@ enum Direction {RIGHT, UP, LEFT, DOWN};
 class Board {
 public:
     Board();
+    void startPlayer(Player*);
     bool setBlock(int, int);
-    bool setPlayer(Player*, Direction); //0-right 1-up 2-left 3-down
+    bool setPlayer(Player*, Direction);
     bool isValidCell(Player*, Direction);
     std::string printBoard();
 private:

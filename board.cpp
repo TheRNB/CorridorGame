@@ -19,6 +19,20 @@ bool Board::setBlock(int X, int Y) {
         return false;
 }
 
+void Board::startPlayer(Player* currPlayer) {
+    if (currPlayer->getId() == 0) {
+        gameBoard[0][0] = PLAYER1;
+    } else if (currPlayer->getId() == 1) {
+        gameBoard[0][boardSize - 1] = PLAYER2;
+    } else if (currPlayer->getId() == 2) {
+        gameBoard[boardSize - 1][0] = PLAYER3;
+    } else if (currPlayer->getId() == 3) {
+        gameBoard[boardSize - 1][boardSize - 1] = PLAYER4;
+    }
+    
+    return;
+}
+
 bool Board::isValidCell(Player* currPlayer, Direction direction) {
     int xDiff = 0, yDiff = 0;
     if (direction == RIGHT) xDiff = 1;
@@ -34,7 +48,7 @@ bool Board::isValidCell(Player* currPlayer, Direction direction) {
     return true;
 }
 
-bool Board::setPlayer(Player* currPlayer, Direction direction) { //0-right 1-up 2-left 3-down
+bool Board::setPlayer(Player* currPlayer, Direction direction) {
     bool isPossible = false;
     int xDiff = 0, yDiff = 0;
     if (direction == RIGHT) xDiff = 1;
