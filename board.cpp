@@ -62,4 +62,6 @@ std::string Board::printBoard() {
         }
         currSituation += "\n";
     }
+
+    return currSituation;
 }
