@@ -1,5 +1,7 @@
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 #include "httplib.h"
+#include "player.h"
+#include "board.h"
 
 using namespace httplib;
 using namespace std;
