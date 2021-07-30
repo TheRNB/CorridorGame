@@ -1,19 +1,29 @@
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <iostream>
+#include <vector>
 #include "httplib.h"
-#include "player.h"
 #include "board.h"
 
 using namespace httplib;
 using namespace std;
+//enum Direction {RIGHT=0, UP, LEFT, DOWN};
 
 int main() {
-    httplib::Server svr;
-    std::cerr << "TEST1" << std::endl;
-    svr.Get("/hi", [](const httplib::Request &, httplib::Response &res) {
-    res.set_content("Hello World!", "text/plain");
+    int n;
+    cout << "Please enter the player amount below:\n";
+    cin >> n;
+    Board game = Board(n);
+    
+    Server svr;
+    int currTurn = 0;
+
+    svr.Get("/situationUpdate", [&](const Request& req, Response& res) {
+        string response = game.printBoard();
+        response = char(game.whichInMiddle()) + response;
+        response = char(currTurn) + response;
+        res.set_content(response, "success");
     });
-    std::cerr << "TEST2" << std::endl;
-    svr.listen("0.0.0.0", 8080);
-    return 1;
+
+    svr.listen("localhost", 8080);
+    return 0;
 }

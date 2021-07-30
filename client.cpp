@@ -58,6 +58,8 @@ int main() {
                             cout << "Please enter a correct direction:\n";
                             cin >> dir;
                         }
+                        
+                        dir = idc + dir;
                         param = { {"walk", dir, "", ""} };
                     } else {
                         int X, Y;
@@ -82,6 +84,7 @@ int main() {
 
                         dir += char(X);
                         dir += char(Y);
+                        dir = idc + dir;
                         param = { {"block", dir, "", ""} };
                     }
                     auto res2 = cli.Post("/makeMove", param);

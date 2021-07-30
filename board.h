@@ -12,10 +12,11 @@ public:
     bool setBlock(int, int, Direction);
     bool setPlayer(Player*, Direction);
     bool isValidCell(Player*, Direction);
-    Cell whichInMiddle();
+    int whichInMiddle();
     std::string printBoard();
     int getPlayerAmount();
     void savePlayer(Player*, int);
+    Player* getPlayer(int);
 private:
     int boardSize;
     int playerNumber;

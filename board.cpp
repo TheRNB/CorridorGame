@@ -123,8 +123,16 @@ std::string Board::printBoard() {
     return currSituation;
 }
 
-Cell Board::whichInMiddle() {
-    return gameBoard[int(boardSize/2)][int(boardSize/2)];
+int Board::whichInMiddle() {
+    if (gameBoard[int(boardSize/2)][int(boardSize/2)] == PLAYER1)
+        return 1;
+    if (gameBoard[int(boardSize/2)][int(boardSize/2)] == PLAYER2)
+        return 2;
+    if (gameBoard[int(boardSize/2)][int(boardSize/2)] == PLAYER3)
+        return 3;
+    if (gameBoard[int(boardSize/2)][int(boardSize/2)] == PLAYER4)
+        return 4;
+    return 0;
 }
 
 int Board::getPlayerAmount() {
@@ -134,4 +142,8 @@ int Board::getPlayerAmount() {
 void Board::savePlayer(Player* pl, int id) {
     gamePlayer[id] = pl;
     return;
+}
+
+Player* Board::getPlayer(int id) {
+    return gamePlayer[id];
 }
