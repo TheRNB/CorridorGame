@@ -2,8 +2,8 @@
 #include <string>
 #include "player.h"
 
-enum Cell {EMPTY, BLOCK, PLAYER1, PLAYER2, PLAYER3, PLAYER4};
-enum Direction {RIGHT, UP, LEFT, DOWN};
+enum Cell {EMPTY=0, BLOCK, PLAYER1, PLAYER2, PLAYER3, PLAYER4};
+enum Direction {RIGHT=0, UP, LEFT, DOWN};
 
 class Board {
 public:
