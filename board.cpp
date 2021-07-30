@@ -103,3 +103,7 @@ std::string Board::printBoard() {
 
     return currSituation;
 }
+
+Cell Board::whichInMiddle() {
+    return gameBoard[int(boardSize/2)][int(boardSize/2)];
+}

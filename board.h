@@ -12,6 +12,7 @@ public:
     bool setBlock(int, int);
     bool setPlayer(Player*, Direction);
     bool isValidCell(Player*, Direction);
+    Cell whichInMiddle();
     std::string printBoard();
 private:
     int boardSize;
