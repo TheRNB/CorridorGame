@@ -15,12 +15,28 @@ Board::Board() {
         gamePlayer[i] = NULL;
 }
 
-bool Board::setBlock(int X, int Y) {
-    if (gameBoard[X][Y] == EMPTY and X != int(boardSize/2) and Y != int(boardSize/2)) {
-        gameBoard[X][Y] = BLOCK;
-        return true;
-    } else
+bool Board::setBlock(int X, int Y, Direction direction) {
+    int XDiff = 0, YDiff = 0;
+    if (direction == LEFT or direction == RIGHT)
+        XDiff = 1;
+    else if (direction == UP or direction == DOWN)
+        YDiff = 1;
+
+    bool isPossible = true;
+    for (int i = -1; i <= 1; ++i) {
+        if (gameBoard[X+(XDiff*i)][Y+(YDiff*i)] == EMPTY and X+(XDiff*i) != int(boardSize/2) and Y+(YDiff*i) != int(boardSize/2))
+            isPossible = true;
+        else
+            isPossible = false;
+    }
+
+    if (isPossible == false)
         return false;
+
+    for (int i = -1; i <= 1; ++i) {
+        gameBoard[X+(XDiff*i)][Y+(YDiff*i)] = BLOCK;
+    }
+    return true;
 }
 
 void Board::startPlayer(Player* currPlayer) {

@@ -9,7 +9,7 @@ class Board {
 public:
     Board();
     void startPlayer(Player*);
-    bool setBlock(int, int);
+    bool setBlock(int, int, Direction);
     bool setPlayer(Player*, Direction);
     bool isValidCell(Player*, Direction);
     Cell whichInMiddle();
