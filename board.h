@@ -8,18 +8,18 @@ enum Direction {RIGHT=0, UP, LEFT, DOWN};
 class Board {
 public:
     Board(int = 4);
-    void startPlayer(Player*);
+    void startPlayer(int);
     bool setBlock(int, int, Direction);
-    bool setPlayer(Player*, Direction);
-    bool isValidCell(Player*, Direction);
+    bool setPlayer(Player&, Direction);
+    bool isValidCell(Player&, Direction);
     int whichInMiddle();
     std::string printBoard();
     int getPlayerAmount();
     void savePlayer(Player*, int);
     Player* getPlayer(int);
 private:
+    Player* gamePlayer[4];
     int boardSize;
     int playerNumber;
     Cell** gameBoard;
-    Player* gamePlayer[4];
 };

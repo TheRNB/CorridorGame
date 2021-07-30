@@ -2,7 +2,7 @@
 
 class Player {
 public:
-    Player(int);
+    Player(int = 0);
     void setPos(int, int);
     int getPosX() const;
     int getPosY() const;

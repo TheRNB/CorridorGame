@@ -6,8 +6,6 @@ using namespace std;
 using namespace httplib;
 
 const int microsecond = 1000000;
-int id = -1;
-string ids;
 char idc;
 
 int main() {
@@ -18,20 +16,17 @@ int main() {
                 cout << "There's a game currently in action in the server\nplease ask the admin to restart." << flush;
                 return 0;
             } else {
-                id = int((res->body)[0]);
-                idc = char(id);
-                ids += idc;
-                cout << "You are player " << id+1 << endl;
+                idc = (res->body)[0];
+                cout << "You are player " << char(idc+1) << endl;
             }
         } else {
-            cerr << "registeration failed!" << endl;
+            cout << "registeration failed!" << endl;
         }
     }
 
 
     while (true) {
         if (auto res = cli.Get("/situationUpdate")) {
-            //cerr << res->body << endl;
             if (res->body[0] != '0') {
                 cout << "\n\n\nPLAYER " << res->body[0] << " HAS WON!\nquitting in 15 seconds...";
                 usleep(15 * microsecond);
@@ -39,12 +34,12 @@ int main() {
             }
             if (res->body[1] == '5') {
                 cout << "please wait for the other players to join..." << endl;
-                usleep(5 * microsecond);
+                usleep(2 * microsecond);
                 continue;
             }
             cout << (res->body).substr(2) << flush;
 
-            if ((res->body)[1]-'0' == idc) {
+            if ((res->body)[1] == idc) {
                 MultipartFormDataItems param;
                 string move;
                 bool notMoved = true;
@@ -64,8 +59,9 @@ int main() {
                             cout << "Please enter a correct direction:\n";
                             cin >> dir;
                         }
-                        
+                        cerr << "dir before " << dir << endl;
                         dir = idc + dir;
+                        cerr << "dir after " << dir << endl;
                         param = { {"walk", dir, "", ""} };
                     } else {
                         int X, Y;
@@ -98,10 +94,10 @@ int main() {
                     if (notMoved) cout << "That move was not possible, try again...\n";
                 }
             } else
-                cout << "player " << (res->body)[1] << "'s turn.\nplease be patient..." << endl;
+                cout << "player " << char((res->body)[1]+1) << "'s turn.\nplease be patient..." << endl;
         }
         
-        usleep(1 * microsecond);
+        usleep(2 * microsecond);
     }
     return 0;
 }

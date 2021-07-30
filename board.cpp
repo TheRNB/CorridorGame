@@ -4,8 +4,6 @@
 Board::Board(int plNumber) {
     playerNumber = plNumber;
     boardSize = 11;
-    for (int i = 0; i < 4; ++i) 
-        gamePlayer[i] = NULL;
     gameBoard = new Cell* [boardSize];
     for (int i = 0; i < boardSize; ++i) {
         gameBoard[i] = new Cell [boardSize];
@@ -14,7 +12,7 @@ Board::Board(int plNumber) {
         }
     }
 
-    for (int i = 0; i < 3; ++i)
+    for (int i = 0; i < 4; ++i)
         gamePlayer[i] = NULL;
 }
 
@@ -42,38 +40,41 @@ bool Board::setBlock(int X, int Y, Direction direction) {
     return true;
 }
 
-void Board::startPlayer(Player* currPlayer) {
-    for (int i = 0; i < 4; ++i) if (gamePlayer[i] == NULL) {gamePlayer[i] = currPlayer; break;}
-    if (currPlayer->getId() == 0) {
+void Board::startPlayer(int id) {
+    gamePlayer[id] = new Player(id);
+    if (id == 0) {
         gameBoard[0][0] = PLAYER1;
-    } else if (currPlayer->getId() == 1) {
+        gamePlayer[id]->setPos(0, 0);
+    } else if (id == 1) {
         gameBoard[boardSize - 1][boardSize - 1] = PLAYER2;
-    } else if (currPlayer->getId() == 2) {
+        gamePlayer[id]->setPos(boardSize - 1, boardSize - 1);
+    } else if (id == 2) {
         gameBoard[boardSize - 1][0] = PLAYER3;
-    } else if (currPlayer->getId() == 3) {
+        gamePlayer[id]->setPos(boardSize - 1, 0);
+    } else if (id == 3) {
         gameBoard[0][boardSize - 1] = PLAYER4;
+        gamePlayer[id]->setPos(0, boardSize - 1);
     }
 
     return;
 }
 
-bool Board::isValidCell(Player* currPlayer, Direction direction) {
+bool Board::isValidCell(Player& currPlayer, Direction direction) {
     int xDiff = 0, yDiff = 0;
     if (direction == RIGHT) xDiff = 1;
     else if (direction == UP) yDiff = 1;
     else if (direction == LEFT) xDiff = -1;
     else if (direction == DOWN) yDiff = -1;
 
-    if (currPlayer->getPosX()+xDiff < 0 or currPlayer->getPosX()+xDiff >= boardSize)
+    if (currPlayer.getPosX()+xDiff < 0 or currPlayer.getPosX()+xDiff >= boardSize)
         return false;
-    if (currPlayer->getPosY()+yDiff < 0 or currPlayer->getPosY()+yDiff >= boardSize)
+    if (currPlayer.getPosY()+yDiff < 0 or currPlayer.getPosY()+yDiff >= boardSize)
         return false;
     
     return true;
 }
 
-bool Board::setPlayer(Player* currPlayer, Direction direction) {
-    std::cerr << "ID " << currPlayer->getId() << " " << direction << std::endl;
+bool Board::setPlayer(Player& currPlayer, Direction direction) {
     bool isPossible = false;
     int xDiff = 0, yDiff = 0;
     if (direction == RIGHT) xDiff = 1;
@@ -81,12 +82,13 @@ bool Board::setPlayer(Player* currPlayer, Direction direction) {
     else if (direction == LEFT) xDiff = -1;
     else if (direction == DOWN) yDiff = -1;
     
-    int currX = currPlayer->getPosX(), currY = currPlayer->getPosY();
+    int currX = currPlayer.getPosX(), currY = currPlayer.getPosY();
+    std::cerr << "we want to move " << currPlayer.getId() << " from " << currX << " " << currY << std::endl;
     if (isValidCell(currPlayer, direction) and gameBoard[currX+xDiff][currY+yDiff] == EMPTY) {
         gameBoard[currX+xDiff][currY+yDiff]
          = gameBoard[currX][currY];
         gameBoard[currX][currY] = EMPTY;
-        currPlayer->setPos(currX+xDiff, currY+yDiff);
+        currPlayer.setPos(currX+xDiff, currY+yDiff);
         isPossible = true;
     }
 
@@ -147,5 +149,6 @@ void Board::savePlayer(Player* pl, int id) {
 }
 
 Player* Board::getPlayer(int id) {
+    //std::cerr << "The called ID was " << id << std::endl;
     return gamePlayer[id];
 }

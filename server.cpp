@@ -20,10 +20,7 @@ int main() {
         string response = game.printBoard();
         if (game.getPlayer(n-1) != NULL) response = char(game.whichInMiddle()+'0') + response;
         else response = '5' + response;
-        //cerr << "r " << response[0] << endl;
         response = char(currTurn+'0') + response;
-        //cerr << game.getPlayer(1) << endl;
-        //cerr << response << endl;
         res.set_content(response, "success");
     });
 
@@ -31,13 +28,17 @@ int main() {
         bool isPossible;
         if (req.has_file("walk")) {
             const auto& file = req.get_file_value("walk");
+            cerr << " * " << file.content << endl;
             Direction drr;
+            cerr << "direction " << file.content[1] << endl;
+            cerr << int(file.content[0]-'0') << endl;
+            cerr << game.getPlayer(file.content[0]-'0')->getPosX() << " " << game.getPlayer(file.content[0]-'0')->getPosY() << endl;
             if (file.content[1] == 'u') drr = UP;
             if (file.content[1] == 'd') drr = DOWN;
             if (file.content[1] == 'l') drr = LEFT;
             if (file.content[1] == 'r') drr = RIGHT;
             
-            isPossible = game.setPlayer(game.getPlayer(file.content[0]), drr);
+            isPossible = game.setPlayer(*game.getPlayer(file.content[0]-'0'), drr);
         } else if (req.has_file("block")) {
             const auto& file = req.get_file_value("block");
             Direction drr;
@@ -61,9 +62,8 @@ int main() {
             int id = 0;
             while (game.getPlayer(id) != NULL) id++;
             string response;
-            response += char(id);
-            Player tmp = Player(id);
-            game.startPlayer(&tmp);
+            response += char(id+'0');
+            game.startPlayer(id);
             res.set_content(response, "success");
         }
     });
