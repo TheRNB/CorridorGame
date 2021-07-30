@@ -1,7 +1,7 @@
 #include <iostream>
 #include "board.h"
 
-Board::Board(int plNumber = 4) {
+Board::Board(int plNumber) {
     playerNumber = plNumber;
     boardSize = 11;
     for (int i = 0; i < 4; ++i) 
