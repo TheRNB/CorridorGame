@@ -12,9 +12,7 @@ char idc;
 
 int main() {
     Client cli("localhost", 8080);
-    string name;
     {
-        MultipartFormDataItems param = { {"", "", "", ""} };
         if (auto res = cli.Get("/register")) {
             if (res->body == "gameInAction") {
                 cout << "There's a game currently in action in the server\nplease ask the admin to restart." << flush;
