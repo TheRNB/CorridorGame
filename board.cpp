@@ -43,6 +43,7 @@ bool Board::setBlock(int X, int Y, Direction direction) {
 }
 
 void Board::startPlayer(Player* currPlayer) {
+    for (int i = 0; i < 4; ++i) if (gamePlayer[i] == NULL) {gamePlayer[i] = currPlayer; break;}
     if (currPlayer->getId() == 0) {
         gameBoard[0][0] = PLAYER1;
     } else if (currPlayer->getId() == 1) {

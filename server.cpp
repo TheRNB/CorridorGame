@@ -58,10 +58,13 @@ int main() {
             while (game.getPlayer(id) != NULL) id++;
             string response;
             response += char(id);
+            Player tmp = Player(id);
+            game.startPlayer(&tmp);
             res.set_content(response, "success");
         }
     });
 
+    cerr << "server in action..." << endl;
     svr.listen("localhost", 8080);
     return 0;
 }
