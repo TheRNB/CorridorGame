@@ -21,6 +21,7 @@ int main() {
                 id = int((res->body)[0]);
                 idc = char(id);
                 ids += idc;
+                cout << "You are player " << id+1 << endl;
             }
         } else {
             cerr << "registeration failed!" << endl;
@@ -30,15 +31,20 @@ int main() {
 
     while (true) {
         if (auto res = cli.Get("/situationUpdate")) {
+            //cerr << res->body << endl;
             if (res->body[0] != '0') {
                 cout << "\n\n\nPLAYER " << res->body[0] << " HAS WON!\nquitting in 15 seconds...";
                 usleep(15 * microsecond);
                 return 0;        
             }
-            
-            cout << (res->body).substr(2) << endl;
+            if (res->body[1] == '5') {
+                cout << "please wait for the other players to join..." << endl;
+                usleep(5 * microsecond);
+                continue;
+            }
+            cout << (res->body).substr(2) << flush;
 
-            if ((res->body)[1] == idc) {
+            if ((res->body)[1]-'0' == idc) {
                 MultipartFormDataItems param;
                 string move;
                 bool notMoved = true;
@@ -89,7 +95,7 @@ int main() {
                     }
                     auto res2 = cli.Post("/makeMove", param);
                     (((res2->body)[0] == '0')? notMoved = true: notMoved = false);
-                    if (notMoved) cout << "That move was not possible, try again...";
+                    if (notMoved) cout << "That move was not possible, try again...\n";
                 }
             } else
                 cout << "player " << (res->body)[1] << "'s turn.\nplease be patient..." << endl;

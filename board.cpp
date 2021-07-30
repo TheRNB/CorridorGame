@@ -73,6 +73,7 @@ bool Board::isValidCell(Player* currPlayer, Direction direction) {
 }
 
 bool Board::setPlayer(Player* currPlayer, Direction direction) {
+    std::cerr << "ID " << currPlayer->getId() << " " << direction << std::endl;
     bool isPossible = false;
     int xDiff = 0, yDiff = 0;
     if (direction == RIGHT) xDiff = 1;

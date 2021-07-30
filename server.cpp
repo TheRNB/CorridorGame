@@ -18,8 +18,12 @@ int main() {
 
     svr.Get("/situationUpdate", [&](const Request& req, Response& res) {
         string response = game.printBoard();
-        response = char(game.whichInMiddle()) + response;
-        response = char(currTurn) + response;
+        if (game.getPlayer(n-1) != NULL) response = char(game.whichInMiddle()+'0') + response;
+        else response = '5' + response;
+        //cerr << "r " << response[0] << endl;
+        response = char(currTurn+'0') + response;
+        //cerr << game.getPlayer(1) << endl;
+        //cerr << response << endl;
         res.set_content(response, "success");
     });
 
