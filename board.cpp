@@ -1,7 +1,8 @@
 #include <iostream>
 #include "board.h"
 
-Board::Board() {
+Board::Board(int plNumber) {
+    playerNumber = plNumber;
     boardSize = 11;
     gameBoard = new Cell* [boardSize];
     for (int i = 0; i < boardSize; ++i) {
