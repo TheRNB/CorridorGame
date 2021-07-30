@@ -1,4 +1,5 @@
 #define CPPHTTPLIB_OPENSSL_SUPPORT
+#include <iostream>
 #include "httplib.h"
 #include "player.h"
 #include "board.h"

@@ -16,7 +16,7 @@ Board::Board() {
 }
 
 bool Board::setBlock(int X, int Y) {
-    if (gameBoard[X][Y] == EMPTY) {
+    if (gameBoard[X][Y] == EMPTY and X != int(boardSize/2) and Y != int(boardSize/2)) {
         gameBoard[X][Y] = BLOCK;
         return true;
     } else
