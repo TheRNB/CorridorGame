@@ -7,13 +7,15 @@ enum Direction {RIGHT, UP, LEFT, DOWN};
 
 class Board {
 public:
-    Board(int);
+    Board(int = 4);
     void startPlayer(Player*);
     bool setBlock(int, int, Direction);
     bool setPlayer(Player*, Direction);
     bool isValidCell(Player*, Direction);
     Cell whichInMiddle();
     std::string printBoard();
+    int getPlayerAmount();
+    void savePlayer(Player*, int);
 private:
     int boardSize;
     int playerNumber;

@@ -1,9 +1,11 @@
 #include <iostream>
 #include "board.h"
 
-Board::Board(int plNumber) {
+Board::Board(int plNumber = 4) {
     playerNumber = plNumber;
     boardSize = 11;
+    for (int i = 0; i < 4; ++i) 
+        gamePlayer[i] = NULL;
     gameBoard = new Cell* [boardSize];
     for (int i = 0; i < boardSize; ++i) {
         gameBoard[i] = new Cell [boardSize];
@@ -123,4 +125,13 @@ std::string Board::printBoard() {
 
 Cell Board::whichInMiddle() {
     return gameBoard[int(boardSize/2)][int(boardSize/2)];
+}
+
+int Board::getPlayerAmount() {
+    return playerNumber;
+}
+
+void Board::savePlayer(Player* pl, int id) {
+    gamePlayer[id] = pl;
+    return;
 }
