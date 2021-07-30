@@ -6,7 +6,6 @@
 
 using namespace httplib;
 using namespace std;
-//enum Direction {RIGHT=0, UP, LEFT, DOWN};
 
 int main() {
     int n;
@@ -47,7 +46,20 @@ int main() {
             isPossible = game.setBlock(X, Y, drr);
         }
         string response = (((isPossible == true)?"1":"0"));
+        if (isPossible == true) currTurn = (currTurn+1)%4;
         res.set_content(response, "success");
+    });
+
+    svr.Get("/register", [&](const Request& req, Response& res) {
+        if (game.getPlayer(n-1) != NULL) {
+            res.set_content("gameInAction", "success");
+        } else {
+            int id = 0;
+            while (game.getPlayer(id) != NULL) id++;
+            string response;
+            response += char(id);
+            res.set_content(response, "success");
+        }
     });
 
     svr.listen("localhost", 8080);
