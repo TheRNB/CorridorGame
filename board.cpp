@@ -61,10 +61,10 @@ void Board::startPlayer(int id) {
 
 bool Board::isValidCell(Player& currPlayer, Direction direction) {
     int xDiff = 0, yDiff = 0;
-    if (direction == RIGHT) xDiff = 1;
-    else if (direction == UP) yDiff = 1;
-    else if (direction == LEFT) xDiff = -1;
-    else if (direction == DOWN) yDiff = -1;
+    if (direction == RIGHT) yDiff = 1;
+    else if (direction == UP) xDiff = -1;
+    else if (direction == LEFT) yDiff = -1;
+    else if (direction == DOWN) xDiff = 1;
 
     if (currPlayer.getPosX()+xDiff < 0 or currPlayer.getPosX()+xDiff >= boardSize)
         return false;

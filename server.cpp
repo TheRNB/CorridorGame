@@ -68,6 +68,10 @@ int main() {
         }
     });
 
+    svr.Get("/quit", [&](const Request& req, Response& res) {
+        svr.stop();
+    });
+
     cout << "server in action..." << endl;
     svr.listen("localhost", 8080);
     return 0;

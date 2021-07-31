@@ -28,9 +28,10 @@ int main() {
 
     while (true) {
         if (auto res = cli.Get("/situationUpdate")) {
-            cerr << "response was " << res->body << endl;
+            //cerr << "response was " << res->body << endl;
             if (res->body[1] >= '1' and res->body[1] <= '4') {
                 cout << "\n\n\nPLAYER " << res->body[0] << " HAS WON!\nquitting in 15 seconds...";
+                cli.Get("/stop");
                 usleep(15 * microsecond);
                 return 0;        
             }
@@ -91,12 +92,19 @@ int main() {
                         dir = idc + dir;
                         param = { {"block", dir, "", ""} };
                     }
-                    auto res2 = cli.Post("/makeMove", param);
-                    (((res2->body)[0] == '0')? notMoved = true: notMoved = false);
-                    if (notMoved) cout << "That move was not possible, try again...\n";
+                    if (auto res2 = cli.Post("/makeMove", param)) {
+                        (((res2->body)[0] == '0')? notMoved = true: notMoved = false);
+                        if (notMoved) cout << "That move is not possible, try again...\n";
+                    } else {
+                        cout << "connection to server was lost, quitting..." << endl;
+                        return 0;            
+                    }
                 }
             } else
                 cout << "player " << char((res->body)[0]+1) << "'s turn.\nplease be patient..." << endl;
+        } else {
+            cout << "connection to server was lost, quitting..." << endl;
+            return 0;
         }
         
         usleep(3 * microsecond);
