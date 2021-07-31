@@ -100,6 +100,9 @@ bool Board::setPlayer(Player& currPlayer, Direction direction) {
 std::string Board::printBoard() {
     std::string currSituation = "";
     for (int i = 0; i < boardSize; ++i) {
+        if (i == 0) currSituation += "11";
+        else if (i == 1) currSituation += "10";
+        else currSituation = currSituation + char(11-i+'0') + " ";
         for (int j = 0; j < boardSize; ++j) {
             if (gameBoard[i][j] == EMPTY)
                 currSituation += "□ ";
@@ -125,6 +128,8 @@ std::string Board::printBoard() {
         }
         currSituation += "\n";
     }
+
+    currSituation += "  1 2 3 4 5 6 7 8 9 1011\n";
 
     return currSituation;
 }
