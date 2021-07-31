@@ -39,7 +39,7 @@ int main() {
             }
             if (res->body[1] == '5') {
                 cout << "please wait for the other players to join..." << endl;
-                usleep(3 * microsecond);
+                usleep(0.5 * microsecond);
                 continue;
             }
             cout << (res->body).substr(2) << flush;
@@ -112,7 +112,7 @@ int main() {
             return 0;
         }
         
-        usleep(3 * microsecond);
+        usleep(0.5 * microsecond);
     }
     return 0;
 }
