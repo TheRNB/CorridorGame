@@ -85,7 +85,6 @@ bool Board::setPlayer(Player& currPlayer, Direction direction) {
     else if (direction == DOWN) xDiff = 1;
     
     int currX = currPlayer.getPosX(), currY = currPlayer.getPosY();
-    //std::cerr << "we want to move " << currPlayer.getId() << " from " << currX << " " << currY << std::endl;
     if (isValidCell(currPlayer, direction) and gameBoard[currX+xDiff][currY+yDiff] == EMPTY) {
         gameBoard[currX+xDiff][currY+yDiff]
          = gameBoard[currX][currY];
@@ -135,7 +134,6 @@ std::string Board::printBoard() {
 }
 
 int Board::whichInMiddle() {
-    ////std::cerr << "middle: " << gameBoard[int(boardSize/2)][int(boardSize/2)] << std::endl;
     if (gameBoard[int(boardSize/2)][int(boardSize/2)] == PLAYER1)
         return 1;
     if (gameBoard[int(boardSize/2)][int(boardSize/2)] == PLAYER2)
@@ -157,6 +155,5 @@ void Board::savePlayer(Player* pl, int id) {
 }
 
 Player* Board::getPlayer(int id) {
-    ////std::cerr << "The called ID was " << id << std::endl;
     return gamePlayer[id];
 }

@@ -31,7 +31,6 @@ int main() {
     while (true) {
         if (auto res = cli.Get("/situationUpdate")) {
             for (int i = 0; i < 35; ++i) cout << "\n";
-            //cerr << "response was " << res->body << endl;
             if (res->body[1] >= '1' and res->body[1] <= '4') {
                 cout << "\n\n\nPLAYER " << char(res->body[0]+1) << " HAS WON!\nquitting in 15 seconds...";
                 cli.Get("/stop");
@@ -65,9 +64,7 @@ int main() {
                             cout << "Please enter a correct direction:\n";
                             cin >> dir;
                         }
-                        //cerr << "dir before " << dir << endl;
                         dir = idc + dir;
-                        //cerr << "dir after " << dir << endl;
                         param = { {"walk", dir, "", ""} };
                     } else {
                         string tmpX, tmpY;
