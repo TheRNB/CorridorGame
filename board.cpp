@@ -27,7 +27,7 @@ bool Board::setBlock(int X, int Y, Direction direction) {
     for (int i = -1; i <= 1; ++i) {
         if (((X+(XDiff*i)) >= 0) and ((X+(XDiff*i)) < boardSize) and ((Y+(YDiff*i)) >= 0) and (Y+(YDiff*i) < boardSize) and
             (gameBoard[X+(XDiff*i)][Y+(YDiff*i)] == EMPTY) and 
-            ((X+(XDiff*i)) != int(boardSize/2)) and ((Y+(YDiff*i)) != int(boardSize/2)))
+            !(((X+(XDiff*i)) == int(boardSize/2)) and ((Y+(YDiff*i)) == int(boardSize/2))))
             isPossible &= true;
         else
             isPossible = false;
