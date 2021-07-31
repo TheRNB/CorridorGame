@@ -1,6 +1,8 @@
 #include <iostream>
-#include <unistd.h> //to wait
+#include <unistd.h>
+#include <string>
 #include "httplib.h"
+#include "stringFunctions.h"
 
 using namespace std;
 using namespace httplib;
@@ -67,18 +69,21 @@ int main() {
                         //cerr << "dir after " << dir << endl;
                         param = { {"walk", dir, "", ""} };
                     } else {
-                        int X, Y;
+                        string tmpX, tmpY;
                         cout << "please choose your coordinates below:\nx: " << flush;
-                        cin >> X;
+                        cin >> tmpX;
                         cout << "y: " << flush;
-                        cin >> Y;
+                        cin >> tmpY;
 
-                        while (X <= 0 or X > 11 or Y <= 0 or Y > 11) {
+                        while (stringIsInt(tmpX) == false or stringIsInt(tmpY) == false or 
+                                string2Int(tmpX) <= 0 or string2Int(tmpX) > 11 or 
+                                string2Int(tmpY) <= 0 or string2Int(tmpY) > 11) {
                             cout << "please enter correct coordinates:\nx: " << flush;
-                            cin >> X;
+                            cin >> tmpX;
                             cout << "y: " << flush;
-                            cin >> Y;
+                            cin >> tmpY;
                         }
+                        int X = string2Int(tmpX), Y = string2Int(tmpY);
 
                         cout << "please choose your direction\n(v for vertical and h for horizontal)\n";
                         cin >> dir;

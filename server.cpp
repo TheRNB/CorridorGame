@@ -1,16 +1,24 @@
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <iostream>
 #include <vector>
+#include <string>
 #include "httplib.h"
 #include "board.h"
+#include "stringFunctions.h"
 
 using namespace httplib;
 using namespace std;
 
 int main() {
+    string tmpN;
     int n;
     cout << "Please enter the player amount below:\n";
-    cin >> n;
+    cin >> tmpN;
+    while (stringIsInt(tmpN) == false or string2Int(tmpN) < 2 or string2Int(tmpN) > 4) {
+        cout << "the amount should be 2-4 players, please choose again:\n";
+        cin >> tmpN;
+    }
+    n = string2Int(tmpN);
     Board game = Board(n);
     
     Server svr;
