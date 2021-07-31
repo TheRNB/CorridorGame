@@ -51,7 +51,7 @@ int main() {
             isPossible = game.setBlock(X, Y, drr);
         }
         string response = (((isPossible == true)?"1":"0"));
-        if (isPossible == true) currTurn = (currTurn+1)%4;
+        if (isPossible == true) currTurn = (currTurn+1)%n;
         res.set_content(response, "success");
     });
 
@@ -68,7 +68,7 @@ int main() {
         }
     });
 
-    //cerr << "server in action..." << endl;
+    cout << "server in action..." << endl;
     svr.listen("localhost", 8080);
     return 0;
 }

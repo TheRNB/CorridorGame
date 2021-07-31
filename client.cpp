@@ -20,14 +20,15 @@ int main() {
                 cout << "You are player " << char(idc+1) << endl;
             }
         } else {
-            cout << "registeration failed!" << endl;
+            cout << "The admin hasn't set up the server. Ask them to do so" << endl;
+            return 0;
         }
     }
 
 
     while (true) {
         if (auto res = cli.Get("/situationUpdate")) {
-            //cerr << "response was " << res->body << endl;
+            cerr << "response was " << res->body << endl;
             if (res->body[1] >= '1' and res->body[1] <= '4') {
                 cout << "\n\n\nPLAYER " << res->body[0] << " HAS WON!\nquitting in 15 seconds...";
                 usleep(15 * microsecond);
@@ -35,7 +36,7 @@ int main() {
             }
             if (res->body[1] == '5') {
                 cout << "please wait for the other players to join..." << endl;
-                usleep(2 * microsecond);
+                usleep(3 * microsecond);
                 continue;
             }
             cout << (res->body).substr(2) << flush;
@@ -95,10 +96,10 @@ int main() {
                     if (notMoved) cout << "That move was not possible, try again...\n";
                 }
             } else
-                cout << "player " << char((res->body)[1]+1) << "'s turn.\nplease be patient..." << endl;
+                cout << "player " << char((res->body)[0]+1) << "'s turn.\nplease be patient..." << endl;
         }
         
-        usleep(2 * microsecond);
+        usleep(3 * microsecond);
     }
     return 0;
 }
