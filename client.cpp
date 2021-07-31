@@ -30,9 +30,10 @@ int main() {
 
     while (true) {
         if (auto res = cli.Get("/situationUpdate")) {
+            for (int i = 0; i < 35; ++i) cout << "\n";
             //cerr << "response was " << res->body << endl;
             if (res->body[1] >= '1' and res->body[1] <= '4') {
-                cout << "\n\n\nPLAYER " << res->body[0] << " HAS WON!\nquitting in 15 seconds...";
+                cout << "\n\n\nPLAYER " << char(res->body[0]+1) << " HAS WON!\nquitting in 15 seconds...";
                 cli.Get("/stop");
                 usleep(15 * microsecond);
                 return 0;        
@@ -112,7 +113,7 @@ int main() {
             return 0;
         }
         
-        usleep(0.5 * microsecond);
+        usleep(0.05 * microsecond);
     }
     return 0;
 }
