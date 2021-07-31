@@ -27,7 +27,8 @@ int main() {
 
     while (true) {
         if (auto res = cli.Get("/situationUpdate")) {
-            if (res->body[0] != '0') {
+            cerr << "response was " << res->body << endl;
+            if (res->body[1] >= '1' and res->body[1] <= '4') {
                 cout << "\n\n\nPLAYER " << res->body[0] << " HAS WON!\nquitting in 15 seconds...";
                 usleep(15 * microsecond);
                 return 0;        
@@ -39,7 +40,7 @@ int main() {
             }
             cout << (res->body).substr(2) << flush;
 
-            if ((res->body)[1] == idc) {
+            if ((res->body)[0] == idc) {
                 MultipartFormDataItems param;
                 string move;
                 bool notMoved = true;

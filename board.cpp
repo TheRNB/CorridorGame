@@ -128,6 +128,7 @@ std::string Board::printBoard() {
 }
 
 int Board::whichInMiddle() {
+    //std::cerr << "middle: " << gameBoard[int(boardSize/2)][int(boardSize/2)] << std::endl;
     if (gameBoard[int(boardSize/2)][int(boardSize/2)] == PLAYER1)
         return 1;
     if (gameBoard[int(boardSize/2)][int(boardSize/2)] == PLAYER2)
