@@ -3,23 +3,28 @@
 #include <string>
 #include "httplib.h"
 #include "stringFunctions.h"
+#include "jsonResponseContainers.h"
 
 using namespace std;
 using namespace httplib;
 
 const int microsecond = 1000000;
 char idc;
+int id;
 
 int main() {
     Client cli("localhost", 8080);
+    
     {
         if (auto res = cli.Get("/register")) {
-            if (res->body == "gameInAction") {
+            RegisterContainer response;
+            response.JSONparser(res->body);
+            if (response.inAction == true) {
                 cout << "There's a game currently in action in the server\nplease ask the admin to restart." << flush;
                 return 0;
             } else {
-                idc = (res->body)[0];
-                cout << "You are player " << char(idc+1) << endl;
+                id = response.id;
+                cout << "You are player " << id+1 << endl;
             }
         } else {
             cout << "The admin hasn't set up the server. Ask them to do so" << endl;
@@ -27,28 +32,33 @@ int main() {
         }
     }
 
-
     while (true) {
         if (auto res = cli.Get("/situationUpdate")) {
-            for (int i = 0; i < 35; ++i) cout << "\n";
-            if (res->body[1] >= '1' and res->body[1] <= '4') {
-                cout << "\n\n\nPLAYER " << char(res->body[0]+1) << " HAS WON!\nquitting in 15 seconds...";
+            for (int i = 0; i < 50; ++i) cout << "\n";
+            
+            SituationUpdateContainer currSituation;
+            currSituation.JSONparser(res->body);
+            
+            if (currSituation.winner >= 1 and currSituation.winner <= 4) {
+                cout << "\n\n\nPLAYER " << currSituation.winner << " HAS WON!\nquitting in 15 seconds...";
                 cli.Get("/stop");
                 usleep(15 * microsecond);
                 return 0;        
             }
-            if (res->body[1] == '5') {
+            if (currSituation.isStarted == false) {
                 cout << "please wait for the other players to join..." << endl;
                 usleep(0.5 * microsecond);
                 continue;
             }
-            cout << (res->body).substr(2) << flush;
+            
+            cout << currSituation.boardSituation << flush;
 
-            if ((res->body)[0] == idc) {
+            if (currSituation.currTurn == id) {
                 MultipartFormDataItems param;
-                string move;
                 bool notMoved = true;
+                
                 while (notMoved) {
+                    string move;
                     cout << "Please choose your move below (b for Blocking, and w for walking):\n";
                     cin >> move;
                     while (move != "b" and move != "w") {
@@ -56,47 +66,49 @@ int main() {
                         cin >> move;
                     }
 
-                    string dir;
+                    param.push_back({"id", int2String(id), "", ""});
+                    param.push_back({"type", move, "", ""});
+
                     if (move == "w") {
+                        string dir;
                         cout << "please choose your direction\n(u for up, d for down, l for left, r for right)\n";
                         cin >> dir;
                         while (dir != "u" and dir != "d" and dir != "l" and dir != "r") {
                             cout << "Please enter a correct direction:\n";
                             cin >> dir;
                         }
-                        dir = idc + dir;
-                        param = { {"walk", dir, "", ""} };
-                    } else {
-                        string tmpX, tmpY;
+                        param.push_back({"dir", dir, "", ""});
+                    } else if (move == "b") {
+                        string X, Y, orientation;
                         cout << "please choose your coordinates below:\nx: " << flush;
-                        cin >> tmpX;
+                        cin >> X;
                         cout << "y: " << flush;
-                        cin >> tmpY;
+                        cin >> Y;
 
-                        while (stringIsInt(tmpX) == false or stringIsInt(tmpY) == false or 
-                                string2Int(tmpX) <= 0 or string2Int(tmpX) > 11 or 
-                                string2Int(tmpY) <= 0 or string2Int(tmpY) > 11) {
+                        while (stringIsInt(X) == false or stringIsInt(Y) == false or 
+                                string2Int(X) <= 0 or string2Int(X) > 11 or 
+                                string2Int(Y) <= 0 or string2Int(Y) > 11) {
                             cout << "please enter correct coordinates:\nx: " << flush;
-                            cin >> tmpX;
+                            cin >> X;
                             cout << "y: " << flush;
-                            cin >> tmpY;
+                            cin >> Y;
                         }
-                        int X = string2Int(tmpX), Y = string2Int(tmpY);
+                        param.push_back({"moveX", X, "", ""});
+                        param.push_back({"moveY", Y, "", ""});
 
                         cout << "please choose your direction\n(v for vertical and h for horizontal)\n";
-                        cin >> dir;
-                        while (dir != "v" and dir != "h") {
+                        cin >> orientation;
+                        while (orientation != "v" and orientation != "h") {
                             cout << "Please enter a correct orientation:\n";
-                            cin >> dir;
+                            cin >> orientation;
                         }
-
-                        dir += char(X);
-                        dir += char(Y);
-                        dir = idc + dir;
-                        param = { {"block", dir, "", ""} };
+                        param.push_back({"orient", orientation, "", ""});
                     }
+
                     if (auto res2 = cli.Post("/makeMove", param)) {
-                        (((res2->body)[0] == '0')? notMoved = true: notMoved = false);
+                        MakeMoveContainer response2;
+                        response2.JSONparser((res2->body));
+                        ((response2.isDone == true)? notMoved = false: notMoved = true);
                         if (notMoved) cout << "That move is not possible, try again...\n";
                     } else {
                         cout << "connection to server was lost, quitting..." << endl;
@@ -104,7 +116,7 @@ int main() {
                     }
                 }
             } else
-                cout << "player " << char((res->body)[0]+1) << "'s turn.\nplease be patient..." << endl;
+                cout << "player " << currSituation.currTurn+1 << "'s turn.\nplease be patient..." << endl;
         } else {
             cout << "connection to server was lost, quitting..." << endl;
             return 0;

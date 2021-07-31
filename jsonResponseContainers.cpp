@@ -49,13 +49,17 @@ void SituationUpdateContainer::JSONparser(std::string json) {
     return;
 }
 
-RegisterContainer::RegisterContainer(int idd) {
+RegisterContainer::RegisterContainer(bool inAct, int idd) {
     id = idd;
+    inAction = inAct;
 }
 
 std::string RegisterContainer::JSONserializer() {
     std::string json;
     json += "{\n";
+    json += "   \"inAction\": ";
+    json += ((inAction==true)?"true":"false");
+    json += ",\n";
     json += "   \"id\": \"" + int2String(id) + "\"\n";
     json += "}";
     return json;
@@ -70,6 +74,13 @@ void RegisterContainer::JSONparser(std::string json) {
             break;
         }
     id = string2Int(json.substr(pos, posEnd-pos));
+
+    pos = stringFind(json, "\"inAction\"") + (int)std::string("\"inAction\"").size() + 2;
+    if (json.substr(pos, 4) == "true") {
+        inAction = true;
+    } else {
+        inAction = false;
+    }
 }
 
 MakeMoveContainer::MakeMoveContainer(bool isDonee) {

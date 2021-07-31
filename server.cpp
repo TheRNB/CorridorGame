@@ -5,6 +5,7 @@
 #include "httplib.h"
 #include "board.h"
 #include "stringFunctions.h"
+#include "jsonResponseContainers.h"
 
 using namespace httplib;
 using namespace std;
@@ -25,51 +26,63 @@ int main() {
     int currTurn = 0;
 
     svr.Get("/situationUpdate", [&](const Request& req, Response& res) {
-        string response = game.printBoard();
-        if (game.getPlayer(n-1) != NULL) response = char(game.whichInMiddle()+'0') + response;
-        else response = '5' + response;
-        response = char(currTurn+'0') + response;
-        res.set_content(response, "success");
+        SituationUpdateContainer response;
+        response.boardSituation = game.printBoard();
+        response.winner = game.whichInMiddle();
+        response.currTurn = currTurn;
+        response.isStarted = ((game.getPlayer(n-1) != NULL)?true:false);
+        
+        cerr << "sent response:\n" << response.JSONserializer() << "\n\n\n";
+        res.set_content(response.JSONserializer(), "success");
     });
 
     svr.Post("/makeMove", [&](const Request& req, Response& res) {
-        bool isPossible;
-        if (req.has_file("walk")) {
-            const auto& file = req.get_file_value("walk");
-            Direction drr;
-            if (file.content[1] == 'u') drr = UP;
-            if (file.content[1] == 'd') drr = DOWN;
-            if (file.content[1] == 'l') drr = LEFT;
-            if (file.content[1] == 'r') drr = RIGHT;
-            
-            isPossible = game.setPlayer(*game.getPlayer(file.content[0]-'0'), drr);
-        } else if (req.has_file("block")) {
-            const auto& file = req.get_file_value("block");
-            Direction drr;
-            if (file.content[1] == 'v') drr = UP;
-            if (file.content[1] == 'h') drr = LEFT;
-            
-            int X = file.content[2];
-            int Y = file.content[3];
+        MakeMoveContainer response;
 
-            isPossible = game.setBlock(abs(11-Y), X-1, drr);
+        const auto& id = req.get_file_value("id");
+        const auto& type = req.get_file_value("type");
+        if (type.content == "w") {
+            const auto& dir = req.get_file_value("dir");
+            Direction drr;
+            if (dir.content == "u") drr = UP;
+            else if (dir.content == "d") drr = DOWN;
+            else if (dir.content == "l") drr = LEFT;
+            else if (dir.content == "r") drr = RIGHT;
+
+            response.isDone = game.setPlayer(*game.getPlayer(string2Int(id.content)), drr);
+        } else if (type.content == "b") {
+            const auto& moveX = req.get_file_value("moveX");
+            const auto& moveY = req.get_file_value("moveY");
+            const auto& orient = req.get_file_value("orient");
+            
+            Direction drr;
+            if (orient.content == "v") drr = UP;
+            if (orient.content == "h") drr = LEFT;
+            
+            int X = string2Int(moveX.content);
+            int Y = string2Int(moveY.content);
+
+            response.isDone = game.setBlock(abs(11-Y), X-1, drr);
         }
-        string response = (((isPossible == true)?"1":"0"));
-        if (isPossible == true) currTurn = (currTurn+1)%n;
-        res.set_content(response, "success");
+        if (response.isDone == true) currTurn = (currTurn+1)%n;
+        cerr << "sent response:\n" << response.JSONserializer() << "\n\n\n";
+        res.set_content(response.JSONserializer(), "success");
     });
 
     svr.Get("/register", [&](const Request& req, Response& res) {
+        RegisterContainer response;
         if (game.getPlayer(n-1) != NULL) {
-            res.set_content("gameInAction", "success");
+            response.inAction = true;
+            response.id = 0;
         } else {
+            response.inAction = false;
             int id = 0;
             while (game.getPlayer(id) != NULL) id++;
-            string response;
-            response += char(id+'0');
             game.startPlayer(id);
-            res.set_content(response, "success");
+            response.id = id;
         }
+        cerr << "sent response:\n" << response.JSONserializer() << "\n\n\n";
+        res.set_content(response.JSONserializer(), "success");
     });
 
     svr.Get("/quit", [&](const Request& req, Response& res) {

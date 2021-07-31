@@ -13,9 +13,10 @@ struct SituationUpdateContainer {
 };
 
 struct RegisterContainer {
+    bool inAction;
     int id;
 
-    RegisterContainer(int=0);
+    RegisterContainer(bool=true, int=0);
     void JSONparser(std::string);
     std::string JSONserializer();
 };
