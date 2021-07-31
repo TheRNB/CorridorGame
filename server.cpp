@@ -28,11 +28,11 @@ int main() {
         bool isPossible;
         if (req.has_file("walk")) {
             const auto& file = req.get_file_value("walk");
-            cerr << " * " << file.content << endl;
+            //cerr << " * " << file.content << endl;
             Direction drr;
-            cerr << "direction " << file.content[1] << endl;
-            cerr << int(file.content[0]-'0') << endl;
-            cerr << game.getPlayer(file.content[0]-'0')->getPosX() << " " << game.getPlayer(file.content[0]-'0')->getPosY() << endl;
+            //cerr << "direction " << file.content[1] << endl;
+            //cerr << int(file.content[0]-'0') << endl;
+            //cerr << game.getPlayer(file.content[0]-'0')->getPosX() << " " << game.getPlayer(file.content[0]-'0')->getPosY() << endl;
             if (file.content[1] == 'u') drr = UP;
             if (file.content[1] == 'd') drr = DOWN;
             if (file.content[1] == 'l') drr = LEFT;
@@ -68,7 +68,7 @@ int main() {
         }
     });
 
-    cerr << "server in action..." << endl;
+    //cerr << "server in action..." << endl;
     svr.listen("localhost", 8080);
     return 0;
 }

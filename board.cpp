@@ -77,10 +77,10 @@ bool Board::isValidCell(Player& currPlayer, Direction direction) {
 bool Board::setPlayer(Player& currPlayer, Direction direction) {
     bool isPossible = false;
     int xDiff = 0, yDiff = 0;
-    if (direction == RIGHT) xDiff = 1;
-    else if (direction == UP) yDiff = 1;
-    else if (direction == LEFT) xDiff = -1;
-    else if (direction == DOWN) yDiff = -1;
+    if (direction == RIGHT) yDiff = 1;
+    else if (direction == UP) xDiff = 1;
+    else if (direction == LEFT) yDiff = -1;
+    else if (direction == DOWN) xDiff = -1;
     
     int currX = currPlayer.getPosX(), currY = currPlayer.getPosY();
     std::cerr << "we want to move " << currPlayer.getId() << " from " << currX << " " << currY << std::endl;
