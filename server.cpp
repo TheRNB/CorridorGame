@@ -2,10 +2,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "httplib.h"
+#include "utils/httplib.h"
 #include "board.h"
-#include "stringFunctions.h"
-#include "jsonResponseContainers.h"
+#include "utils/stringFunctions.h"
+#include "utils/jsonResponseContainers.h"
 
 using namespace httplib;
 using namespace std;

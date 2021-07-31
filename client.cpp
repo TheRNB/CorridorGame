@@ -1,9 +1,9 @@
 #include <iostream>
 #include <unistd.h>
 #include <string>
-#include "httplib.h"
-#include "stringFunctions.h"
-#include "jsonResponseContainers.h"
+#include "utils/httplib.h"
+#include "utils/stringFunctions.h"
+#include "utils/jsonResponseContainers.h"
 
 using namespace std;
 using namespace httplib;
