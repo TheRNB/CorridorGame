@@ -19,14 +19,16 @@ Board::Board(int plNumber) {
 bool Board::setBlock(int X, int Y, Direction direction) {
     int XDiff = 0, YDiff = 0;
     if (direction == LEFT or direction == RIGHT)
-        XDiff = 1;
-    else if (direction == UP or direction == DOWN)
         YDiff = 1;
+    else if (direction == UP or direction == DOWN)
+        XDiff = 1;
 
     bool isPossible = true;
     for (int i = -1; i <= 1; ++i) {
-        if (gameBoard[X+(XDiff*i)][Y+(YDiff*i)] == EMPTY and X+(XDiff*i) != int(boardSize/2) and Y+(YDiff*i) != int(boardSize/2))
-            isPossible = true;
+        if (((X+(XDiff*i)) >= 0) and ((X+(XDiff*i)) < boardSize) and ((Y+(YDiff*i)) >= 0) and (Y+(YDiff*i) < boardSize) and
+            (gameBoard[X+(XDiff*i)][Y+(YDiff*i)] == EMPTY) and 
+            ((X+(XDiff*i)) != int(boardSize/2)) and ((Y+(YDiff*i)) != int(boardSize/2)))
+            isPossible &= true;
         else
             isPossible = false;
     }

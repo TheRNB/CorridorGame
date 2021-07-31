@@ -68,15 +68,15 @@ int main() {
                         param = { {"walk", dir, "", ""} };
                     } else {
                         int X, Y;
-                        cout << "please choose your coordinates below:\nx: ";
+                        cout << "please choose your coordinates below:\nx: " << flush;
                         cin >> X;
-                        cout << "y: ";
+                        cout << "y: " << flush;
                         cin >> Y;
 
-                        while (X < 0 or X >= 11 or Y < 0 or Y >= 11) {
-                            cout << "please enter correct coordinates:\nx: ";
+                        while (X <= 0 or X > 11 or Y <= 0 or Y > 11) {
+                            cout << "please enter correct coordinates:\nx: " << flush;
                             cin >> X;
-                            cout << "y: ";
+                            cout << "y: " << flush;
                             cin >> Y;
                         }
 

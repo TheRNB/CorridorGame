@@ -48,7 +48,7 @@ int main() {
             int X = file.content[2];
             int Y = file.content[3];
 
-            isPossible = game.setBlock(X, Y, drr);
+            isPossible = game.setBlock(abs(11-Y), X-1, drr);
         }
         string response = (((isPossible == true)?"1":"0"));
         if (isPossible == true) currTurn = (currTurn+1)%n;
