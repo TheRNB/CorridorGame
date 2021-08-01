@@ -1,6 +1,6 @@
 # -*- MakeFile -*-
 
-all: server client
+all: test server client
 
 server: server.o board.o player.o stringFunctions.o jsonResponseContainers.o
 	g++ -std=c++17 server.o board.o player.o stringFunctions.o  jsonResponseContainers.o -o server -lpthread -lssl -lcrypto
@@ -30,7 +30,7 @@ jsonResponseContainers.o: utils/jsonResponseContainers.cpp utils/jsonResponseCon
 test: test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o player-test.o jsonResponseContainers.o stringFunctions.o board.o player.o
 	g++ -std=c++17 test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o player-test.o jsonResponseContainers.o stringFunctions.o board.o player.o -o testFile
 	./testFile
-	rm -f *.o testFile
+	rm -f *-test.o test-main.o testFile
 
 catch.o: test/catch.cpp
 	g++ -std=c++17 -c test/catch.cpp
