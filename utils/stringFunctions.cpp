@@ -32,7 +32,7 @@ std::string int2String (int num) {
 
 int stringFind(std::string base, std::string query) {
     int pos;
-    for (int i = 0; i < (int)base.size()-(int)query.size(); ++i) {
+    for (int i = 0; i <= (int)base.size()-(int)query.size(); ++i) {
         bool isPresent = true;
         for (int j = 0; j < (int)query.size(); ++j) {
             if (base[i+j] != query[j]) {
