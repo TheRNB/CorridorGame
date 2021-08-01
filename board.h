@@ -17,6 +17,7 @@ public:
     int getPlayerAmount();
     void savePlayer(Player*, int);
     Player* getPlayer(int);
+    double getDistance(Player*);
 private:
     Player* gamePlayer[4];
     int boardSize;

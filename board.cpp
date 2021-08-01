@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "board.h"
 #include "utils/stringFunctions.h"
 
@@ -171,4 +172,10 @@ void Board::savePlayer(Player* pl, int id) {
 
 Player* Board::getPlayer(int id) {
     return gamePlayer[id];
+}
+
+double Board::getDistance(Player* pl) {
+    int mid = (boardSize/2);
+    double distance = sqrt(pow(2, mid-pl->getPosX()) + pow(2, mid-pl->getPosY()));
+    return distance;
 }
