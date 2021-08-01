@@ -11,7 +11,7 @@ server.o: server.cpp player.h board.h utils/stringFunctions.h
 player.o: player.cpp player.h
 	g++ -std=c++17 -c player.cpp
 
-board.o: board.cpp board.h player.h
+board.o: board.cpp board.h player.h utils/stringFunctions.h
 	g++ -std=c++17 -c board.cpp
 
 client: client.o stringFunctions.o  jsonResponseContainers.o
@@ -51,4 +51,4 @@ player-test.o: test/player-test.cpp player.h
 	g++ -std=c++17 -c test/player-test.cpp
 
 clean:
-	rm -f *.o server client testFile
+	rm -f *.o server client

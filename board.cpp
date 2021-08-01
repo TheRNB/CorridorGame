@@ -1,5 +1,6 @@
 #include <iostream>
 #include "board.h"
+#include "utils/stringFunctions.h"
 
 Board::Board(int plNumber) {
     playerNumber = plNumber;
@@ -99,9 +100,12 @@ bool Board::setPlayer(Player& currPlayer, Direction direction) {
 std::string Board::printBoard() {
     std::string currSituation = "";
     for (int i = 0; i < boardSize; ++i) {
-        if (i == 0) currSituation += "11";
-        else if (i == 1) currSituation += "10";
-        else currSituation = currSituation + char(11-i+'0') + " ";
+
+        std::string num = int2String(boardSize-i);
+        while ((int)num.size() < 2) 
+            num += " ";
+
+        currSituation += num;
         for (int j = 0; j < boardSize; ++j) {
             if (gameBoard[i][j] == EMPTY)
                 currSituation += "□ ";
@@ -128,7 +132,18 @@ std::string Board::printBoard() {
         currSituation += "\n";
     }
 
-    currSituation += "  1 2 3 4 5 6 7 8 9 1011\n";
+    currSituation += "  ";
+    
+    for (int i = 1; i <= boardSize; ++i) {
+        std::string tmp = int2String(i);
+
+        while ((int)tmp.size() < 2) 
+            tmp += " ";
+        
+        currSituation += tmp;
+    }
+
+    currSituation += "\n";
 
     return currSituation;
 }
