@@ -27,19 +27,24 @@ jsonResponseContainers.o: utils/jsonResponseContainers.cpp utils/jsonResponseCon
 	g++ -std=c++17 -c utils/jsonResponseContainers.cpp
 
 
-test: test-main.o jsonResponseContainers-test.o stringFunctions-test.o jsonResponseContainers.o stringFunctions.o
-	g++ -c test/catch.cpp
-	g++ test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o jsonResponseContainers.o stringFunctions.o -o testFile
+test: test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o jsonResponseContainers.o stringFunctions.o board.o player.o
+	g++ -std=c++17 test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o jsonResponseContainers.o stringFunctions.o board.o player.o -o testFile
 	./testFile
 
+catch.o: test/catch.cpp
+	g++ -std=c++17 -c test/catch.cpp
+
 test-main.o: test/test-main.cpp
-	g++ -c test/test-main.cpp
+	g++ -std=c++17 -c test/test-main.cpp
 
 jsonResponseContainers-test.o: test/jsonResponseContainers-test.cpp utils/jsonResponseContainers.h
-	g++ -c test/jsonResponseContainers-test.cpp
+	g++ -std=c++17 -c test/jsonResponseContainers-test.cpp
 
 stringFunctions-test.o: test/stringFunctions-test.cpp utils/stringFunctions.h
-	g++ -c test/stringFunctions-test.cpp
+	g++ -std=c++17 -c test/stringFunctions-test.cpp
+
+board-test.o: test/board-test.cpp board.h
+	g++ -std=c++17 -c test/board-test.cpp
 
 clean:
 	rm -f *.o server client testFile
