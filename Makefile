@@ -30,7 +30,7 @@ jsonResponseContainers.o: utils/jsonResponseContainers.cpp utils/jsonResponseCon
 test: test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o player-test.o jsonResponseContainers.o stringFunctions.o board.o player.o
 	g++ -std=c++17 test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o player-test.o jsonResponseContainers.o stringFunctions.o board.o player.o -o testFile
 	./testFile
-	make clean
+	rm -f *.o testFile
 
 catch.o: test/catch.cpp
 	g++ -std=c++17 -c test/catch.cpp
