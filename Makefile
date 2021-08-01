@@ -27,9 +27,10 @@ jsonResponseContainers.o: utils/jsonResponseContainers.cpp utils/jsonResponseCon
 	g++ -std=c++17 -c utils/jsonResponseContainers.cpp
 
 
-test: test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o jsonResponseContainers.o stringFunctions.o board.o player.o
-	g++ -std=c++17 test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o jsonResponseContainers.o stringFunctions.o board.o player.o -o testFile
+test: test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o player-test.o jsonResponseContainers.o stringFunctions.o board.o player.o
+	g++ -std=c++17 test-main.o catch.o jsonResponseContainers-test.o stringFunctions-test.o board-test.o player-test.o jsonResponseContainers.o stringFunctions.o board.o player.o -o testFile
 	./testFile
+	make clean
 
 catch.o: test/catch.cpp
 	g++ -std=c++17 -c test/catch.cpp
@@ -45,6 +46,9 @@ stringFunctions-test.o: test/stringFunctions-test.cpp utils/stringFunctions.h
 
 board-test.o: test/board-test.cpp board.h
 	g++ -std=c++17 -c test/board-test.cpp
+
+player-test.o: test/player-test.cpp player.h
+	g++ -std=c++17 -c test/player-test.cpp
 
 clean:
 	rm -f *.o server client testFile
