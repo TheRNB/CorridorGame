@@ -32,7 +32,6 @@ int main() {
         response.currTurn = currTurn;
         response.isStarted = ((game.getPlayer(n-1) != NULL)?true:false);
         
-        cerr << "sent response:\n" << response.JSONserializer() << "\n\n\n";
         res.set_content(response.JSONserializer(), "success");
     });
 
@@ -65,7 +64,6 @@ int main() {
             response.isDone = game.setBlock(abs(11-Y), X-1, drr);
         }
         if (response.isDone == true) currTurn = (currTurn+1)%n;
-        cerr << "sent response:\n" << response.JSONserializer() << "\n\n\n";
         res.set_content(response.JSONserializer(), "success");
     });
 
@@ -81,7 +79,6 @@ int main() {
             game.startPlayer(id);
             response.id = id;
         }
-        cerr << "sent response:\n" << response.JSONserializer() << "\n\n\n";
         res.set_content(response.JSONserializer(), "success");
     });
 
