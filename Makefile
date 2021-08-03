@@ -1,6 +1,6 @@
 # -*- MakeFile -*-
 
-all: test testClean server client projectClean
+all: server client
 
 server: server.o board.o player.o stringFunctions.o jsonResponseContainers.o
 	g++ -std=c++17 server.o board.o player.o utils/stringFunctions.o  utils/jsonResponseContainers.o -o server -lpthread -lssl -lcrypto
@@ -51,10 +51,7 @@ player-test.o: test/player-test.cpp player.h
 
 
 clean:
-	rm -f *.o utils/*.o server client
+	rm -f *.o utils/*.o test/*.o test/test-main.o test/testFile server client
 
 testClean:
 	rm -f test/*.o test/test-main.o test/testFile
-
-projectClean:
-	rm -f *.o utils/*.o

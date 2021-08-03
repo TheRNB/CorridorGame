@@ -54,10 +54,10 @@ int main() {
             cout << currSituation.boardSituation << flush;
 
             if (currSituation.currTurn == id) {
-                MultipartFormDataItems param;
                 bool notMoved = true;
                 
                 while (notMoved) {
+                    MultipartFormDataItems param;
                     string move;
                     cout << "Please choose your move below (b for Blocking, and w for walking):\n";
                     cin >> move;
