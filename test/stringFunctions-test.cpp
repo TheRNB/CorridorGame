@@ -8,17 +8,20 @@ TEST_CASE("testing stringIsInt") {
     REQUIRE(stringIsInt("") == false);
     REQUIRE(stringIsInt(" ") == false);
     REQUIRE(stringIsInt("0") == true);
-    for (int i = 0; i < 20; ++i) {
-        int rnd = rand();
-        REQUIRE(stringIsInt(int2String(rnd)) == true);
-    }
 }
 
 TEST_CASE("testing string2Int") {
     REQUIRE(string2Int("123456") == 123456);
     REQUIRE(string2Int("0") == 0);
     REQUIRE(string2Int("9") == 9);
-    for (int i = 0; i < 20; ++i) {
+}
+
+TEST_CASE("testing string2Int and Int2String simultaneously") {
+    for (int i = 0; i < 40; ++i) {
+        int rnd = rand();
+        REQUIRE(stringIsInt(int2String(rnd)) == true);
+    }
+    for (int i = 0; i < 40; ++i) {
         int rnd = rand();
         REQUIRE(string2Int(int2String(rnd)) == rnd);
     }

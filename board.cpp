@@ -176,6 +176,6 @@ Player* Board::getPlayer(int id) {
 
 double Board::getDistance(Player* pl) {
     int mid = (boardSize/2);
-    double distance = sqrt(pow(2, mid-pl->getPosX()) + pow(2, mid-pl->getPosY()));
+    double distance = sqrt(pow(mid-pl->getPosX(), 2) + pow(mid-pl->getPosY(), 2));
     return distance;
 }
