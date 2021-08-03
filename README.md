@@ -1,6 +1,7 @@
 Quoridor Game
 
 ABOUT AND RULES:
+
     This is a spin on the board game "Quoridor". The general rules of the game are:
     
     1- Each player can do 2 things in their move:
@@ -17,4 +18,5 @@ ABOUT AND RULES:
 
 
 HOW TO RUN:
+
     The installation is fairly straight forward, Just download the folder and extract it to a desired location. Then open the terminal and navigate to that location (use the command "cd <the location>" or if you're on Ubuntu, right-click in that folder and click open in terminal). then write "./server", this will start the server on your computer using 127.0.0.1:8080. Then open the same location in a new terminal and write "./client", this will start the client that connects to the server, then all you gotta do is connect enough clients to the server and the game will start automatically.
