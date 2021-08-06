@@ -18,9 +18,12 @@ public:
     void savePlayer(Player*, int);
     Player* getPlayer(int);
     double getDistance(Player*);
+    bool isConnected(int, int, Direction);
 private:
     Player* gamePlayer[4];
     int boardSize;
     int playerNumber;
     Cell** gameBoard;
+    bool** isPassed;
+    void dfs(int, int);
 };

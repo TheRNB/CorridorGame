@@ -7,10 +7,13 @@ Board::Board(int plNumber) {
     playerNumber = plNumber;
     boardSize = 11;
     gameBoard = new Cell* [boardSize];
+    isPassed = new bool* [boardSize];
     for (int i = 0; i < boardSize; ++i) {
         gameBoard[i] = new Cell [boardSize];
+        isPassed[i] = new bool [boardSize];
         for (int j = 0; j < boardSize; ++j) {
             gameBoard[i][j] = EMPTY;
+            isPassed[i][j] = false;
         }
     }
 
@@ -38,6 +41,9 @@ bool Board::setBlock(int X, int Y, Direction direction) {
     if (isPossible == false)
         return false;
 
+    if (isConnected(X, Y, direction) == false)
+        return false;
+
     for (int i = -1; i <= 1; ++i) {
         gameBoard[X+(XDiff*i)][Y+(YDiff*i)] = BLOCK;
     }
@@ -60,6 +66,54 @@ void Board::startPlayer(int id) {
         gamePlayer[id]->setPos(0, boardSize - 1);
     }
 
+    return;
+}
+
+bool Board::isConnected(int X, int Y, Direction direction) {
+    for (int i = 0; i < boardSize; ++i) {
+        for (int j = 0; j < boardSize; ++j) {
+            isPassed[i][j] = ((gameBoard[i][j]==BLOCK)?true:false);
+        }
+    }
+
+    int XDiff = 0, YDiff = 0;
+    if (direction == LEFT or direction == RIGHT)
+        YDiff = 1;
+    else if (direction == UP or direction == DOWN)
+        XDiff = 1;
+    
+    for (int i = -1; i <= 1; ++i) {
+        if (((X+(XDiff*i)) >= 0) and ((X+(XDiff*i)) < boardSize) and ((Y+(YDiff*i)) >= 0) and (Y+(YDiff*i) < boardSize) and
+            (gameBoard[X+(XDiff*i)][Y+(YDiff*i)] == EMPTY) and 
+            !(((X+(XDiff*i)) == int(boardSize/2)) and ((Y+(YDiff*i)) == int(boardSize/2))))
+            isPassed[X+(XDiff*i)][Y+(YDiff*i)] = true;
+    }
+
+    dfs(0, 0);
+
+    for (int i = 0; i < boardSize; ++i) {
+        for (int j = 0; j < boardSize; ++j) {
+            if (isPassed[i][j] == false) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void Board::dfs(int X, int Y) {
+    isPassed[X][Y] = true;
+    
+    int XDiff[] = {1, 0, -1, 0};
+    int YDiff[] = {0, 1, 0, -1};
+    for (int i = 0; i < 4; ++i) {
+        if ((X + XDiff[i]) >= 0 and (X + XDiff[i]) < boardSize 
+        and (Y + YDiff[i]) >= 0 and (Y + YDiff[i]) < boardSize
+        and isPassed[X + XDiff[i]][Y + YDiff[i]] == false) {
+            dfs(X+XDiff[i], Y+YDiff[i]);
+        }
+    }
     return;
 }
 
@@ -108,7 +162,10 @@ std::string Board::printBoard() {
 
         currSituation += num;
         for (int j = 0; j < boardSize; ++j) {
-            if (gameBoard[i][j] == EMPTY)
+            if (i == boardSize/2 and j == boardSize/2) {
+                currSituation += "☒ ";
+            }
+            else if (gameBoard[i][j] == EMPTY)
                 currSituation += "□ ";
             else if (gameBoard[i][j] == BLOCK)
                 currSituation += "# ";
