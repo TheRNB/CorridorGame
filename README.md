@@ -6,10 +6,10 @@ Ever wished you could play [Quoridor](https://en.wikipedia.org/wiki/Quoridor) on
 Each player is initially spawned in one of the corners of a 11*11 board.
 - They can do 2 things in their move:
     - Move their bead to an empty cell adjacent to their current cell.
-    - Place a 3-cells-long horizontal block or a 3-cells-long vertical block by choosing its middle cell. 
+    - Place a 3-cell-long horizontal block or a 3-cell-long vertical block by choosing its middle cell. 
 - A cell is deemed 'empty' if:
-    - No player (including the current player) has placed a blocked that covers that cell in a previous turn.
-    - No other players are currently in that cell.
+    - No player (including the current player) has placed a block that covers that cell in a previous turn.
+    - No other player are currently in that cell.
 The goal of the game is to get to the middle cell of the board. The first player who gets there wins the game.
 
 ### Installation ###
