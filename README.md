@@ -1,15 +1,14 @@
 ![alt text](https://raw.githubusercontent.com/TheRNB/CorridorGame/main/logo.png)
-# Quoridor Game #
+# Corridor Game #
 Ever wished you could play [Quoridor](https://en.wikipedia.org/wiki/Quoridor) online with friends? Well, now you can! This is an online implementation of the game using C++ and [cpp-httplib](https://github.com/yhirose/cpp-httplib).
 
 ### Here's a quick tutorial: ###
-Each player is initially spawned in one of the corners of a 11*11 board.
-- They can do 2 things in their move:
-    - Move their bead to an empty cell adjacent to their current cell.
-    - Place a 3-cell-long horizontal block or a 3-cell-long vertical block by choosing its middle cell. 
-- A cell is deemed 'empty' if:
-    - No player (including the current player) has placed a block that covers that cell in a previous turn.
-    - No other player are currently in that cell.
+Each player is initially spawned in one of the corners of a 11*11 board. They have 2 options in their turn:
+- Move their bead to an empty cell adjacent to their current cell.
+- Choose 3 consecutive cell to place a block either horizontally or vertically. 
+A cell is deemed 'empty' if:
+- No player (including the current player) has placed a block that covers that cell in a previous turn.
+- No other player is currently in that cell.
 The goal of the game is to get to the middle cell of the board. The first player who gets there wins the game.
 
 ### Installation ###
